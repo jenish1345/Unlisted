@@ -1,0 +1,865 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Unlisted — the role their code makes the case for</title>
+<style>
+  :root {
+    --bg: #07080a;
+    --panel: #0e1013;
+    --panel-2: #14171b;
+    --line: rgba(255,255,255,0.09);
+    --line-strong: rgba(255,255,255,0.18);
+    --text: #eceef1;
+    --muted: #9aa1ab;
+    --faint: #626873;
+    --accent: #d8f36a;
+    --repo: #7cc4ff;
+    --signal: #f2b66d;
+    --ok: #4ade80;
+    --warn: #fbbf24;
+    --bad: #f87171;
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Inter, Roboto, Helvetica, Arial, sans-serif;
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 15px/1.6 var(--sans); -webkit-font-smoothing: antialiased;
+  }
+  a { color: inherit; }
+  .wrap { max-width: 1040px; margin: 0 auto; padding: 0 20px; }
+  .label {
+    font: 500 11px/1.4 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--faint);
+  }
+
+  /* ---------- header / input ---------- */
+  header.top { border-bottom: 1px solid var(--line); }
+  header.top .wrap { display: flex; align-items: center; justify-content: space-between; height: 56px; }
+  .brand { font: 600 14px var(--mono); letter-spacing: .32em; text-transform: uppercase; }
+  .brand span { color: var(--accent); }
+  .api-status { font: 12px var(--mono); color: var(--faint); display: flex; align-items: center; gap: 8px; }
+  .dot { width: 7px; height: 7px; border-radius: 50%; background: var(--faint); display: inline-block; }
+  .dot.ok { background: var(--ok); } .dot.bad { background: var(--bad); }
+
+  .hero { padding: 56px 0 40px; }
+  .hero h1 {
+    font-weight: 250; font-size: clamp(34px, 5.4vw, 60px); line-height: 1.02; letter-spacing: -.03em; margin: 14px 0 18px;
+  }
+  .hero h1 b { font-weight: 700; }
+  .hero p.lede { color: var(--muted); max-width: 640px; margin: 0 0 32px; font-size: 16px; }
+
+  form.run {
+    display: grid; grid-template-columns: 1fr 1fr auto; gap: 12px; align-items: end;
+    background: var(--panel); border: 1px solid var(--line); padding: 18px;
+  }
+  .field label { display: block; margin-bottom: 6px; }
+  .field input, .field select {
+    width: 100%; height: 46px; padding: 0 14px; background: var(--bg); color: var(--text);
+    border: 1px solid var(--line-strong); font: 15px var(--sans); border-radius: 0; outline: none;
+  }
+  .field input:focus, .field select:focus { border-color: var(--accent); }
+  .field input:disabled, .field select:disabled { opacity: .45; cursor: not-allowed; }
+  .at { position: relative; }
+  .at input { padding-left: 30px; }
+  .at::before { content: "@"; position: absolute; left: 13px; top: 11px; color: var(--faint); font-family: var(--mono); }
+  button.go {
+    height: 46px; padding: 0 22px; border: 0; background: var(--accent); color: #0b0c0e;
+    font: 600 13px var(--mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
+  }
+  button.go:disabled { opacity: .45; cursor: progress; }
+  .form-foot {
+    grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between;
+    color: var(--muted); font-size: 13px;
+  }
+  .company-desc { min-height: 1.4em; }
+  .demo-toggle { display: flex; gap: 8px; align-items: center; color: var(--faint); cursor: pointer; }
+  .demo-toggle input { accent-color: var(--accent); }
+  .form-error { grid-column: 1 / -1; color: var(--bad); font-size: 13px; }
+
+  /* ---------- pipeline strip ---------- */
+  .strip { display: grid; grid-template-columns: repeat(5, 1fr); border: 1px solid var(--line); margin: 36px 0 8px; }
+  .strip div { padding: 12px 14px; border-right: 1px solid var(--line); font: 12px/1.4 var(--mono); color: var(--faint); }
+  .strip div:last-child { border-right: 0; }
+  .strip b { display: block; font-weight: 500; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: 2px; }
+  .strip .s-active { background: var(--panel-2); } .strip .s-active b { color: var(--text); }
+  .strip .s-done b { color: var(--ok); } .strip .s-error b { color: var(--bad); }
+  .strip .s-skipped { opacity: .45; }
+
+  .run-meta { color: var(--faint); font: 12px var(--mono); margin-bottom: 36px; min-height: 1.4em; }
+
+  /* ---------- sections ---------- */
+  section.stage { border-top: 1px solid var(--line); padding: 36px 0 44px; }
+  .stage-head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .stage-head h2 { margin: 6px 0 0; font-weight: 300; font-size: 28px; letter-spacing: -.02em; }
+  .stage-head .when { font: 12px var(--mono); color: var(--faint); }
+
+  .pending { color: var(--muted); font-size: 14px; }
+  .pending .msg { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .spinner { width: 14px; height: 14px; border: 2px solid var(--line-strong); border-top-color: var(--accent); border-radius: 50%; animation: spin .8s linear infinite; }
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .sk { height: 12px; background: linear-gradient(90deg, var(--panel) 0%, var(--panel-2) 50%, var(--panel) 100%); background-size: 200% 100%; animation: sh 1.4s ease infinite; margin: 10px 0; }
+  @keyframes sh { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+  .queued { color: var(--faint); font-size: 14px; }
+  .err {
+    border: 1px solid rgba(248,113,113,.4); background: rgba(248,113,113,.07); padding: 14px 16px; color: #fecaca; font-size: 14px; overflow-wrap: anywhere;
+  }
+  .err strong { display: block; color: var(--bad); font: 600 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; margin-bottom: 4px; }
+  .skipped { color: var(--faint); font-size: 14px; font-style: italic; }
+
+  /* candidate */
+  .candidate { display: flex; gap: 16px; align-items: center; margin-bottom: 24px; }
+  .candidate img { width: 56px; height: 56px; border-radius: 50%; border: 1px solid var(--line-strong); }
+  .candidate .nm { font-size: 19px; font-weight: 500; }
+  .candidate .bio { color: var(--muted); font-size: 14px; }
+
+  .repos { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 12px; }
+  .repo { background: var(--panel); border: 1px solid var(--line); padding: 16px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .repo-top { display: flex; justify-content: space-between; gap: 10px; align-items: baseline; }
+  .repo-name { font: 600 14px var(--mono); color: var(--repo); text-decoration: none; word-break: break-all; }
+  .repo-name:hover { text-decoration: underline; }
+  .repo-stats { font: 12px var(--mono); color: var(--faint); white-space: nowrap; }
+  .repo-desc { color: var(--muted); font-size: 13px; }
+  .proves { font-size: 14px; border-left: 2px solid var(--accent); padding-left: 10px; }
+  .proves .label { display: block; margin-bottom: 2px; color: var(--accent); }
+  .syn-claims { margin: 4px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--muted); }
+  .syn-claims li { padding: 4px 0 0 14px; position: relative; }
+  .syn-claims li::before { content: "›"; position: absolute; left: 2px; color: var(--faint); }
+  .skills { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 18px; }
+  .chip { font: 12px var(--mono); border: 1px solid var(--line-strong); padding: 3px 9px; color: var(--muted); }
+  .subhead { margin: 24px 0 10px; }
+  .inline-note { font-size: 13px; color: var(--muted); margin-top: 10px; }
+
+  /* thesis */
+  .role-title { font-size: clamp(26px, 3.6vw, 40px); font-weight: 600; letter-spacing: -.02em; line-height: 1.1; margin: 0 0 6px; }
+  .role-for { color: var(--muted); margin-bottom: 18px; }
+  .justification { font-size: 17px; line-height: 1.65; max-width: 780px; color: #d6d9de; }
+  .regen {
+    border: 1px solid rgba(251,191,36,.4); background: rgba(251,191,36,.07); color: #fde68a; padding: 12px 14px; font-size: 14px; margin-bottom: 18px;
+  }
+  .regen s { color: var(--faint); }
+  .trace-summary { font: 12px var(--mono); color: var(--faint); margin: 28px 0 10px; letter-spacing: .04em; }
+  .claims { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .claim { display: grid; grid-template-columns: 1fr minmax(220px, 38%); gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .claim-text { font-size: 15px; }
+  .src { font-size: 13px; border-left: 2px solid; padding-left: 12px; }
+  .src .kind { font: 600 10px var(--mono); letter-spacing: .16em; text-transform: uppercase; display: block; margin-bottom: 3px; }
+  .src.src-repo { border-color: var(--repo); } .src.src-repo .kind { color: var(--repo); }
+  .src.src-signal { border-color: var(--signal); } .src.src-signal .kind { color: var(--signal); }
+  .src .ref { font-family: var(--mono); color: var(--text); word-break: break-word; }
+  .src .ctx { color: var(--faint); margin-top: 4px; }
+
+  /* verification — the centerpiece */
+  section.verify { padding: 44px 0 52px; }
+  .verdict-card {
+    --v: var(--muted);
+    border: 1px solid var(--v); background: var(--panel);
+    background:
+      radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--v) 16%, transparent) 0%, transparent 55%), var(--panel);
+    padding: clamp(24px, 4vw, 44px);
+  }
+  .verdict-card.v-SUPPORTED { --v: var(--ok); }
+  .verdict-card.v-PARTIALLY_SUPPORTED { --v: var(--warn); }
+  .verdict-card.v-OVERREACHING { --v: var(--bad); }
+  .verdict-card .by { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+  .verdict-word {
+    font-weight: 800; font-size: clamp(40px, 8.5vw, 96px); line-height: .95; letter-spacing: -.035em;
+    color: var(--v); margin: 18px 0 8px; word-break: break-word;
+  }
+  .verdict-meaning { font-size: 18px; color: var(--text); margin-bottom: 22px; }
+  .verdict-reason { font-size: 17px; line-height: 1.65; color: #d6d9de; max-width: 820px; margin: 0; }
+  .verdict-reason::before { content: "Gemini's reasoning"; display: block; font: 500 11px var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--faint); margin-bottom: 8px; }
+  .isolation { margin-top: 24px; font-size: 13px; color: var(--faint); border-top: 1px solid var(--line); padding-top: 14px; }
+  .verdict-pending { border: 1px dashed var(--line-strong); padding: 40px; text-align: center; }
+  .verdict-pending .big { font-size: clamp(28px, 5vw, 52px); font-weight: 200; color: var(--faint); letter-spacing: -.02em; }
+
+  /* pitch */
+  .pitch { background: var(--panel); border: 1px solid var(--line); }
+  .pitch-subject { padding: 16px 20px; border-bottom: 1px solid var(--line); font-size: 16px; }
+  .pitch-subject .label { margin-right: 10px; }
+  .pitch-body { padding: 20px; white-space: pre-wrap; font-size: 15px; line-height: 1.7; margin: 0; font-family: var(--sans); }
+  .pitch-foot { padding: 16px 20px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .cta { font-size: 14px; color: var(--muted); }
+  .cta b { color: var(--text); font-weight: 500; }
+  .copy-row { display: flex; align-items: center; gap: 12px; }
+  button.copy {
+    height: 40px; padding: 0 18px; background: transparent; color: var(--text); border: 1px solid var(--line-strong);
+    font: 600 12px var(--mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
+  }
+  button.copy:hover { border-color: var(--accent); color: var(--accent); }
+  .copy-status { font: 12px var(--mono); color: var(--faint); }
+  .copy-status.ok { color: var(--ok); } .copy-status.bad { color: var(--warn); }
+
+  /* run notice: live failure → demo fallback, and the "this is a recording" banner */
+  .notice {
+    margin-top: 36px; border: 1px solid var(--line-strong); background: var(--panel); padding: 14px 16px;
+    display: flex; justify-content: space-between; align-items: center; gap: 12px 20px; flex-wrap: wrap; font-size: 14px;
+  }
+  .notice strong { display: block; font: 600 11px var(--mono); letter-spacing: .16em; text-transform: uppercase; margin-bottom: 2px; }
+  .notice.n-failed { border-color: rgba(248,113,113,.4); } .notice.n-failed strong { color: var(--bad); }
+  .notice.n-demo { border-color: rgba(251,191,36,.45); background: rgba(251,191,36,.06); } .notice.n-demo strong { color: var(--warn); }
+  .notice .why { color: var(--muted); overflow-wrap: anywhere; }
+  .notice + .strip { margin-top: 12px; }
+  button.fallback {
+    height: 40px; padding: 0 16px; background: transparent; color: var(--text); border: 1px solid var(--line-strong);
+    font: 600 12px var(--mono); letter-spacing: .1em; text-transform: uppercase; cursor: pointer; white-space: nowrap;
+  }
+  button.fallback:hover { border-color: var(--accent); color: var(--accent); }
+  .strip .s-unresolved b { color: var(--warn); }
+
+  /* synthesis is its own stage, shown inside the extraction section */
+  .substage { border: 1px solid var(--line); padding: 14px 16px 2px; margin: 24px 0; }
+  .substage-head { display: flex; justify-content: space-between; gap: 12px; margin-bottom: 10px; }
+  .substage .err, .substage .skipped, .substage .pending { margin-bottom: 14px; }
+
+  /* verification: unresolved + per-claim audit */
+  .verdict-card.v-UNRESOLVED { --v: var(--warn); }
+  .audit-trail { font: 12px var(--mono); color: var(--faint); margin: 0 0 18px; letter-spacing: .04em; }
+  .cv { display: inline-block; margin-top: 6px; font: 600 10px var(--mono); letter-spacing: .14em; text-transform: uppercase; }
+  .cv-SUPPORTED { color: var(--ok); } .cv-PARTIALLY_SUPPORTED { color: var(--warn); } .cv-UNSUPPORTED { color: var(--bad); }
+  .cv-note { color: var(--faint); font-size: 13px; }
+
+  footer { border-top: 1px solid var(--line); padding: 24px 0 40px; color: var(--faint); font: 12px var(--mono); }
+  #results[hidden] { display: none; }
+  .notice[hidden] { display: none; }
+
+  @media (max-width: 760px) {
+    form.run { grid-template-columns: 1fr; }
+    .strip { grid-template-columns: repeat(5, minmax(0,1fr)); }
+    .strip div { padding: 10px 6px; font-size: 10px; min-width: 0; }
+    .strip b { letter-spacing: .04em; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .strip div span { display: none; }
+    .claim { grid-template-columns: 1fr; gap: 8px; }
+  }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="brand">Unlisted<span>.</span></div>
+    <div class="api-status" id="apiStatus"><span class="dot"></span><span>connecting…</span></div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="hero">
+    <div class="label">Talent intelligence from shipped code</div>
+    <h1>Find the role their code <b>already makes the case for.</b></h1>
+    <p class="lede">
+      Unlisted ignores the résumé and reads what someone has actually built on GitHub, then matches it against where a
+      company is really investing. The result is a specific role thesis (not checked against current job postings), an
+      independent audit of whether the evidence backs it, and a cold pitch built only from the claims that pass.
+    </p>
+
+    <form class="run" id="runForm" novalidate>
+      <div class="field">
+        <label class="label" for="username">GitHub username</label>
+        <div class="at"><input id="username" name="username" autocomplete="off" spellcheck="false" placeholder="username" required></div>
+      </div>
+      <div class="field">
+        <label class="label" for="company">Target company</label>
+        <select id="company" name="company" disabled><option>Loading companies…</option></select>
+      </div>
+      <button class="go" id="goBtn" type="submit" disabled>Find the role</button>
+
+      <div class="form-foot">
+        <span>We'll read their public repos, work out what each one proves, propose the role this company's engineering signals point to,
+          have Gemini audit every claim against the evidence, then draft outreach from the claims that pass.</span>
+      </div>
+      <div class="form-foot">
+        <span class="company-desc" id="companyDesc"></span>
+        <label class="demo-toggle" title="Uses the backend's demo mode: streams the pre-recorded run in demo_cache.json. No GitHub/OpenAI/Gemini calls are made and the inputs above are ignored.">
+          <input type="checkbox" id="demo"> Replay the backend's recorded demo run
+        </label>
+      </div>
+      <div class="form-error" id="formError" hidden></div>
+    </form>
+  </div>
+
+  <div id="results" hidden>
+    <div class="notice" id="runNotice" hidden></div>
+    <div class="strip" id="strip"></div>
+    <div class="run-meta" id="runMeta"></div>
+
+    <section class="stage" id="sec-extraction">
+      <div class="stage-head">
+        <div><div class="label">01 · Extraction</div><h2>What they've actually built</h2></div>
+        <div class="when" data-when="extraction"></div>
+      </div>
+      <div class="body"></div>
+    </section>
+
+    <section class="stage" id="sec-thesis">
+      <div class="stage-head">
+        <div><div class="label">02 · Role thesis</div><h2>The role we'd pitch</h2></div>
+        <div class="when" data-when="thesis"></div>
+      </div>
+      <div class="body"></div>
+    </section>
+
+    <section class="stage verify" id="sec-verification">
+      <div class="stage-head">
+        <div><div class="label">03 · Independent verification</div><h2>Does the evidence hold up?</h2></div>
+        <div class="when" data-when="verification"></div>
+      </div>
+      <div class="body"></div>
+    </section>
+
+    <section class="stage" id="sec-pitch">
+      <div class="stage-head">
+        <div><div class="label">04 · Outreach</div><h2>The pitch to send</h2></div>
+        <div class="when" data-when="pitch"></div>
+      </div>
+      <div class="body"></div>
+    </section>
+  </div>
+</main>
+
+<footer><div class="wrap" id="footer"></div></footer>
+
+<script>
+(() => {
+  "use strict";
+
+  // ---------- API base ----------
+  // Same origin when served by the FastAPI app; localhost:8000 when opened from disk; ?api= overrides both.
+  const params = new URLSearchParams(location.search);
+  const API = (params.get("api") || (location.protocol === "file:" ? "http://localhost:8000" : "")).replace(/\/$/, "");
+
+  const STAGES = ["extraction", "synthesis", "thesis", "verification", "pitch"];
+  const STAGE_LABEL = { extraction: "Extract", synthesis: "Synthesize", thesis: "Thesis", verification: "Verify", pitch: "Pitch" };
+  const PENDING_COPY = {
+    extraction: "Reading public repositories and READMEs from GitHub…",
+    synthesis: "Turning the repos into concrete, repo-cited evidence…",
+    thesis: "Cross-referencing the evidence against the company's hiring signals…",
+    verification: "Gemini is auditing each claim against the raw evidence…",
+    pitch: "Drafting outreach from the claims that survived…",
+  };
+  const VERDICT_MEANING = {
+    SUPPORTED: "The evidence backs this role.",
+    PARTIALLY_SUPPORTED: "Some claims hold up. Others need more proof.",
+    OVERREACHING: "The thesis claims more than the code shows.",
+  };
+
+  // ---------- tiny DOM helper ----------
+  function h(tag, attrs, ...kids) {
+    const el = document.createElement(tag);
+    if (attrs) for (const [k, v] of Object.entries(attrs)) {
+      if (v == null || v === false) continue;
+      if (k === "class") el.className = v;
+      else if (k === "text") el.textContent = v;
+      else if (k.startsWith("on")) el.addEventListener(k.slice(2), v);
+      else el.setAttribute(k, v);
+    }
+    for (const kid of kids.flat()) {
+      if (kid == null || kid === false) continue;
+      el.appendChild(typeof kid === "string" || typeof kid === "number" ? document.createTextNode(String(kid)) : kid);
+    }
+    return el;
+  }
+  const $ = (s) => document.querySelector(s);
+  // replaceChildren() would stringify null/false into "null"; drop them first.
+  const fill = (el, ...kids) => el.replaceChildren(...kids.flat().filter((k) => k != null && k !== false));
+  const fmtNum = (n) => (typeof n === "number" ? (n >= 1000 ? (n / 1000).toFixed(n >= 10000 ? 0 : 1) + "k" : String(n)) : "");
+  const safeUrl = (u) => (typeof u === "string" && /^https:\/\//i.test(u) ? u : null);
+
+  // Normalise FastAPI error bodies: {detail: "..."} or {detail: [{msg, loc}, ...]} (422).
+  async function readHttpError(res) {
+    let text = "";
+    try { text = await res.text(); } catch (_) {}
+    try {
+      const j = JSON.parse(text);
+      if (typeof j.detail === "string") return j.detail;
+      if (Array.isArray(j.detail)) return j.detail.map((d) => d.msg || JSON.stringify(d)).join("; ");
+    } catch (_) {}
+    return `HTTP ${res.status}${text ? ": " + text.slice(0, 200) : ""}`;
+  }
+
+  // ---------- state ----------
+  let state;
+  let controller = null;
+  let companies = [];
+
+  function resetState(demo, username, companyName, fallbackFrom) {
+    state = {
+      demo,
+      username,
+      fallbackFrom,          // set when this demo replay was started from a failed live run
+      rewriting: false,      // first audit said OVERREACHING; backend is rewriting the thesis
+      firstVerification: null,
+      unresolved: null,      // message when no role survived verification
+      claimsUsed: null,      // claims the pitch was built from (live runs only)
+      status: Object.fromEntries(STAGES.map((s) => [s, "pending"])),
+      data: {},
+      error: {},
+      at: {},
+      thesisNote: null,
+      originalThesis: null,
+      started: performance.now(),
+      companyName,
+      finished: false,
+    };
+  }
+
+  // ---------- companies (from backend) ----------
+  async function loadCompanies() {
+    const sel = $("#company");
+    try {
+      const res = await fetch(`${API}/api/companies`);
+      if (!res.ok) throw new Error(await readHttpError(res));
+      companies = await res.json();
+      if (!Array.isArray(companies) || !companies.length) throw new Error("The backend returned no companies.");
+      sel.replaceChildren(...companies.map((c) => h("option", { value: c.id, text: c.name })));
+      sel.disabled = $("#demo").checked;
+      $("#goBtn").disabled = false;
+      syncDemo();
+      setApiStatus(true, `${companies.length} companies loaded`);
+    } catch (e) {
+      sel.replaceChildren(h("option", { text: "Couldn't load companies" }));
+      setApiStatus(false, "backend unreachable");
+      showFormError(`Couldn't load companies from ${API || location.origin}/api/companies. ${e.message}. Is the backend running?`);
+    }
+  }
+  function showCompanyDesc() {
+    const c = companies.find((x) => x.id === $("#company").value);
+    $("#companyDesc").textContent = c ? c.description : "";
+  }
+  function setApiStatus(ok, text) {
+    $("#apiStatus").replaceChildren(h("span", { class: "dot " + (ok ? "ok" : "bad") }), h("span", { text }));
+  }
+  function showFormError(msg) {
+    const el = $("#formError");
+    el.textContent = msg || "";
+    el.hidden = !msg;
+  }
+
+  // ---------- run ----------
+  async function run(evt) {
+    evt.preventDefault();
+    showFormError("");
+    const demo = $("#demo").checked;
+    const username = $("#username").value.trim().replace(/^@/, "");
+    const companyId = $("#company").value;
+    // The backend silently falls back to demo playback when either field is empty, so guard it here.
+    if (!demo && !username) { showFormError("Enter a GitHub username, or tick the demo replay."); $("#username").focus(); return; }
+    start({ demo, username, companyId });
+  }
+
+  async function start({ demo, username, companyId, fallbackFrom = null }) {
+    if (controller) controller.abort();
+    controller = new AbortController();
+    const company = companies.find((c) => c.id === companyId);
+    resetState(demo, username, demo ? null : company && company.name, fallbackFrom);
+    $("#results").hidden = false;
+    $("#goBtn").disabled = true;
+    $("#goBtn").textContent = "Running…";
+    render();
+    $("#strip").scrollIntoView({ behavior: "smooth", block: "start" });
+
+    try {
+      const res = await fetch(`${API}/api/analyze${demo ? "?demo=true" : ""}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json", Accept: "text/event-stream" },
+        body: JSON.stringify({ github_username: username, company_id: companyId, demo }),
+        signal: controller.signal,
+      });
+      if (!res.ok || !res.body) throw new Error(await readHttpError(res));
+      await readSSE(res.body, handleEvent);
+      finish(null);
+    } catch (e) {
+      if (e.name === "AbortError") return;
+      finish(e.message || String(e));
+    }
+  }
+
+  // Parse a text/event-stream body read via fetch (EventSource can't POST).
+  async function readSSE(body, onEvent) {
+    const reader = body.getReader();
+    const dec = new TextDecoder();
+    let buf = "";
+    for (;;) {
+      const { value, done } = await reader.read();
+      if (value) buf += dec.decode(value, { stream: true });
+      if (done) buf += dec.decode() + "\n\n";
+      buf = buf.replace(/\r\n/g, "\n");
+      let idx;
+      while ((idx = buf.indexOf("\n\n")) !== -1) {
+        const block = buf.slice(0, idx);
+        buf = buf.slice(idx + 2);
+        const data = block.split("\n").filter((l) => l.startsWith("data:")).map((l) => l.slice(5).replace(/^ /, "")).join("\n");
+        if (!data) continue;
+        try { onEvent(JSON.parse(data)); }
+        catch (err) { console.warn("Unparseable SSE event", data, err); }
+      }
+      if (done) return;
+    }
+  }
+
+  function handleEvent(evt) {
+    const stage = evt && evt.stage;
+    if (!STAGES.includes(stage)) { console.warn("Unknown stage", evt); return; }
+    state.at[stage] = performance.now() - state.started;
+
+    if (evt.status === "error") {
+      state.status[stage] = "error";
+      state.error[stage] = evt.message || "This stage failed without a message.";
+      // Backend halts on the first error: everything after it will never arrive.
+      STAGES.slice(STAGES.indexOf(stage) + 1).forEach((s) => { if (state.status[s] === "pending") state.status[s] = "skipped"; });
+    } else if (evt.status === "unresolved") {
+      // No role survived the audit. The backend stops here and never drafts a pitch.
+      state.rewriting = false;
+      state.status[stage] = "unresolved";
+      state.unresolved = evt.message || "No role survived verification.";
+      if (evt.data) state.data[stage] = evt.data;
+      STAGES.slice(STAGES.indexOf(stage) + 1).forEach((s) => { if (state.status[s] === "pending") state.status[s] = "skipped"; });
+    } else if (evt.status === "done") {
+      if (stage === "thesis" && state.data.thesis && evt.note) {
+        // OVERREACHING → backend re-emits a conservative thesis, then audits it again.
+        state.originalThesis = state.data.thesis;
+        state.thesisNote = evt.note;
+        state.rewriting = false;
+        state.firstVerification = state.data.verification || null;
+        delete state.data.verification;
+        delete state.at.verification;
+        state.status.verification = "pending";
+      }
+      if (stage === "verification") state.rewriting = evt.round === 1 && evt.data && evt.data.verdict === "OVERREACHING";
+      if (stage === "pitch") state.claimsUsed = Array.isArray(evt.claims_used) ? evt.claims_used : null;
+      state.status[stage] = "done";
+      state.data[stage] = evt.data || {};
+    }
+    render();
+  }
+
+  function finish(transportError) {
+    state.finished = true;
+    state.rewriting = false;
+    const firstOpen = STAGES.find((s) => state.status[s] === "pending");
+    if (firstOpen) {
+      state.status[firstOpen] = "error";
+      state.error[firstOpen] = transportError
+        ? `Connection to the backend failed: ${transportError}`
+        : "The stream ended before this stage reported a result.";
+      STAGES.slice(STAGES.indexOf(firstOpen) + 1).forEach((s) => { if (state.status[s] === "pending") state.status[s] = "skipped"; });
+    }
+    $("#goBtn").disabled = false;
+    $("#goBtn").textContent = "Run again";
+    render();
+  }
+
+  // ---------- rendering ----------
+  function render() {
+    renderNotice();
+    renderStrip();
+    renderMeta();
+    renderExtraction();
+    renderThesis();
+    renderVerification();
+    renderPitch();
+    for (const s of STAGES) {
+      const el = document.querySelector(`[data-when="${s}"]`);
+      if (el) el.textContent = state.at[s] != null && state.status[s] === "done" ? `${(state.at[s] / 1000).toFixed(1)}s` : "";
+    }
+  }
+
+  const activeStage = () => (state.rewriting ? "thesis" : STAGES.find((s) => state.status[s] === "pending"));
+
+  // A failed live run offers the recorded demo; a demo replay always says it is one.
+  function renderNotice() {
+    const el = $("#runNotice");
+    if (state.demo) {
+      const f = state.fallbackFrom;
+      el.className = "notice n-demo";
+      el.hidden = false;
+      return fill(el, h("div", null,
+        h("strong", { text: "Demo replay · recorded run, not a live result" }),
+        h("div", { class: "why", text: f
+          ? `Shown because the live run for @${f.username}${f.company ? " → " + f.company : ""} stopped at ${f.stage}: ${f.message}`
+          : "The backend is replaying demo_cache.json. No GitHub, OpenAI or Gemini calls are made." })));
+    }
+    const failed = STAGES.find((s) => state.status[s] === "error" || state.status[s] === "unresolved");
+    if (!state.finished || !failed) { el.hidden = true; return; }
+    const unresolved = state.status[failed] === "unresolved";
+    const message = unresolved ? state.unresolved : state.error[failed];
+    el.className = "notice n-failed";
+    el.hidden = false;
+    fill(el,
+      h("div", null,
+        h("strong", { text: unresolved ? "Live run finished without a verified role" : `Live run stopped at ${failed}` }),
+        h("div", { class: "why", text: message })),
+      h("button", { class: "fallback", type: "button",
+        onclick: () => start({ demo: true, username: "", companyId: "",
+          fallbackFrom: { stage: failed, message, username: state.username, company: state.companyName } }) },
+        "Replay recorded demo instead"));
+  }
+
+  function renderStrip() {
+    const active = activeStage();
+    $("#strip").replaceChildren(...STAGES.map((s) => {
+      const st = state.status[s];
+      const cls = s === active ? "s-active" : "s-" + st;
+      const sub = s === active ? "running…" : st === "done" ? "done" : st === "error" ? "failed" : st === "unresolved" ? "unresolved"
+        : st === "skipped" ? "not run" : "queued";
+      return h("div", { class: cls }, h("b", { text: STAGE_LABEL[s] }), h("span", { text: sub }));
+    }));
+  }
+
+  function renderMeta() {
+    const ex = state.data.extraction;
+    const who = ex ? `@${ex.username}` : state.demo ? "" : `@${state.username}`;
+    const target = state.companyName ? ` → ${state.companyName}` : "";
+    const t = state.finished ? ` · finished in ${((performance.now() - state.started) / 1000).toFixed(1)}s` : "";
+    $("#runMeta").textContent = `${state.demo ? "Recorded demo" : "Live"}${who ? " · " + who : ""}${target}${t}`;
+  }
+
+  function body(stage) { return document.querySelector(`#sec-${stage} .body`); }
+
+  function stateBlock(stage) {
+    const st = state.status[stage];
+    if (st === "error") return h("div", { class: "err" }, h("strong", { text: `${stage} failed` }), state.error[stage]);
+    if (st === "skipped") {
+      const failed = STAGES.find((s) => state.status[s] === "error");
+      if (!failed && state.status.verification === "unresolved")
+        return h("div", { class: "skipped", text: "Not drafted: no role survived verification, so there are no verified claims to pitch." });
+      return h("div", { class: "skipped", text: `Not run: the pipeline stopped when ${failed || "an earlier stage"} failed.` });
+    }
+    if (st === "pending") {
+      if (activeStage() !== stage) return h("div", { class: "queued", text: `Queued. Waiting on ${activeStage()}.` });
+      return h("div", { class: "pending" },
+        h("div", { class: "msg" }, h("span", { class: "spinner" }), PENDING_COPY[stage]),
+        h("div", { class: "sk", style: "width:72%" }), h("div", { class: "sk", style: "width:54%" }), h("div", { class: "sk", style: "width:63%" }));
+    }
+    return null;
+  }
+
+  // Map a thesis source string to a repo from extraction, mirroring the backend's source_matches_repo():
+  // the exact repo name, or the repo name as a whole token (e.g. "fastapi (README)").
+  function matchRepo(source) {
+    const repos = (state.data.extraction && state.data.extraction.repos) || [];
+    const s = String(source || "").trim().toLowerCase();
+    if (!s) return null;
+    const esc = (x) => x.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    const hits = repos.filter((r) => { const n = r.name.toLowerCase(); return s === n || new RegExp(`(^|[^\\w.-])${esc(n)}($|[^\\w.-])`).test(s); });
+    return hits.sort((a, b) => b.name.length - a.name.length)[0] || null;
+  }
+
+  function renderExtraction() {
+    const el = body("extraction");
+    const blk = stateBlock("extraction");
+    if (blk) return fill(el, blk);
+    const ex = state.data.extraction;
+    const syn = state.data.synthesis;
+    const repos = Array.isArray(ex.repos) ? ex.repos : [];
+
+    const synByRepo = {};
+    if (syn && Array.isArray(syn.evidence)) for (const e of syn.evidence) {
+      const r = matchRepo(e.source_repo);
+      const key = r ? r.name : e.source_repo;
+      (synByRepo[key] = synByRepo[key] || []).push(e.claim);
+    }
+
+    const avatar = safeUrl(ex.avatar_url);
+    const profile = safeUrl(ex.html_url);
+    const kids = [
+      h("div", { class: "candidate" },
+        avatar && h("img", { src: avatar, alt: "" }),
+        h("div", null,
+          h("div", { class: "nm" }, ex.name || ex.username, " ",
+            profile && h("a", { href: profile, target: "_blank", rel: "noopener", class: "repo-stats", text: `@${ex.username} ↗` })),
+          ex.bio && h("div", { class: "bio", text: ex.bio }),
+          h("div", { class: "repo-stats", text: `${repos.length} repos analyzed` }))),
+    ];
+
+    // Synthesis is its own pipeline stage (the model step), shown here with its own status and timer.
+    const synDone = state.status.synthesis === "done" && syn;
+    kids.push(h("div", { class: "substage" },
+      h("div", { class: "substage-head" },
+        h("span", { class: "label", text: "Stage 2 · Synthesis · skills evidenced in code" }),
+        synDone && state.at.synthesis != null && h("span", { class: "label", text: `${(state.at.synthesis / 1000).toFixed(1)}s` })),
+      synDone
+        ? h("div", { class: "skills" }, (Array.isArray(syn.skills) ? syn.skills : []).map((s) => h("span", { class: "chip", text: s })))
+        : stateBlock("synthesis"),
+      state.status.synthesis === "error" && h("div", { class: "inline-note", style: "margin:-4px 0 14px",
+        text: "Extraction succeeded: the repositories below are real GitHub data. The model step that interprets them failed." })));
+
+    kids.push(h("div", { class: "label subhead", text: "Repositories · what each one proves" }));
+    kids.push(h("div", { class: "repos" }, repos.map((r) => {
+      const url = safeUrl(r.html_url);
+      const claims = synByRepo[r.name] || [];
+      return h("article", { class: "repo" },
+        h("div", { class: "repo-top" },
+          url ? h("a", { class: "repo-name", href: url, target: "_blank", rel: "noopener", text: r.name }) : h("span", { class: "repo-name", text: r.name }),
+          h("span", { class: "repo-stats", text: [r.language, r.stars != null ? `★ ${fmtNum(r.stars)}` : null].filter(Boolean).join(" · ") })),
+        r.description && h("div", { class: "repo-desc", text: r.description }),
+        r.what_this_proves && h("div", { class: "proves" }, h("span", { class: "label", text: "What this proves" }), r.what_this_proves),
+        claims.length ? h("ul", { class: "syn-claims" }, claims.map((c) => h("li", { text: c }))) : null);
+    })));
+
+    // Synthesis evidence that cites a repo we don't have (shouldn't happen, but don't drop it silently)
+    const orphans = Object.keys(synByRepo).filter((k) => !repos.some((r) => r.name === k));
+    if (orphans.length) kids.push(h("div", { class: "inline-note", text: `Synthesis also cited: ${orphans.map((o) => `${o} (${synByRepo[o].length})`).join(", ")}. These repos weren't in the extracted set.` }));
+
+    fill(el, ...kids);
+  }
+
+  function renderThesis() {
+    const el = body("thesis");
+    const blk = stateBlock("thesis");
+    if (blk) return fill(el, blk);
+    const t = state.data.thesis;
+    const ev = Array.isArray(t.supporting_evidence) ? t.supporting_evidence : [];
+    const traced = ev.map((item) => ({ item, repo: matchRepo(item.source) }));
+    const nRepo = traced.filter((x) => x.repo).length;
+
+    // Per-claim audit for this exact thesis (cleared when the thesis is rewritten).
+    const cvs = {};
+    const v = state.data.verification;
+    if (v && Array.isArray(v.claim_verdicts)) for (const cv of v.claim_verdicts) cvs[cv.index] = cv;
+    const nVerified = Object.values(cvs).filter((cv) => cv.verdict === "SUPPORTED").length;
+    const CV_LABEL = { SUPPORTED: "✓ Verified by Gemini · used in pitch", PARTIALLY_SUPPORTED: "~ Partly supported · not used in pitch", UNSUPPORTED: "✗ Not supported · not used in pitch" };
+
+    fill(el,
+      state.rewriting && h("div", { class: "regen" },
+        h("div", { class: "msg", style: "display:flex;gap:10px;align-items:center" }, h("span", { class: "spinner" }),
+          "Gemini judged this thesis OVERREACHING. Rewriting it more conservatively, then auditing the rewrite…")),
+      state.thesisNote && h("div", { class: "regen" },
+        `${state.thesisNote}. Gemini judged the first thesis`, " ",
+        state.originalThesis && h("s", { text: `“${state.originalThesis.role_title}”` }),
+        " as overreaching. The role below is the conservative rewrite, and it went back to Gemini for a second audit before any pitch was drafted."),
+      state.status.verification === "unresolved" && h("div", { class: "err" },
+        h("strong", { text: "Not verified" }), "Treat this role as a hypothesis, not a result. ", state.unresolved),
+      h("h3", { class: "role-title", text: t.role_title }),
+      state.companyName && h("div", { class: "role-for", text: `at ${state.companyName} · role thesis, not checked against current job postings` }),
+      h("p", { class: "justification", text: t.justification }),
+      h("div", { class: "trace-summary", text: `EVIDENCE TRAIL · ${ev.length} claims · ${nRepo} traced to repositories · ${ev.length - nRepo} to company signals`
+        + (Object.keys(cvs).length ? ` · ${nVerified} individually verified` : "") }),
+      h("ul", { class: "claims" }, traced.map(({ item, repo }, i) => {
+        const url = repo && safeUrl(repo.html_url);
+        const src = repo
+          ? h("div", { class: "src src-repo" },
+              h("span", { class: "kind", text: "Repository" }),
+              url ? h("a", { class: "ref", href: url, target: "_blank", rel: "noopener", text: `${repo.name} ↗` }) : h("span", { class: "ref", text: repo.name }),
+              repo.what_this_proves && h("div", { class: "ctx", text: repo.what_this_proves }))
+          : h("div", { class: "src src-signal" },
+              h("span", { class: "kind", text: `Company signal${state.companyName ? " · " + state.companyName : ""}` }),
+              h("span", { class: "ref", text: item.source || "(no source given)" }));
+        const cv = cvs[i];
+        return h("li", { class: "claim" },
+          h("div", null, h("div", { class: "claim-text", text: item.claim }),
+            cv && h("div", { class: `cv cv-${cv.verdict}`, text: CV_LABEL[cv.verdict] || cv.verdict }),
+            cv && cv.note && h("div", { class: "cv-note", text: cv.note })),
+          src);
+      })),
+    );
+  }
+
+  function renderVerification() {
+    const el = body("verification");
+    const st = state.status.verification;
+    const reaudit = !!state.firstVerification;
+    if (st === "pending" && activeStage() === "verification") {
+      return fill(el, h("div", { class: "verdict-pending" },
+        h("div", { class: "pending" }, h("div", { class: "msg", style: "justify-content:center" }, h("span", { class: "spinner" }),
+          reaudit ? "Gemini is auditing the conservative rewrite…" : PENDING_COPY.verification)),
+        h("div", { class: "big", text: reaudit ? "Second audit pending" : "Verdict pending" })));
+    }
+    const unresolved = st === "unresolved";
+    const blk = !unresolved && stateBlock("verification");
+    if (blk) return fill(el, blk);
+    const v = state.data.verification || {};
+    const verdict = unresolved ? "UNRESOLVED" : String(v.verdict || "").toUpperCase();
+    const cvs = Array.isArray(v.claim_verdicts) ? v.claim_verdicts : [];
+    const nOk = cvs.filter((cv) => cv.verdict === "SUPPORTED").length;
+    const trail = [];
+    if (reaudit) trail.push(`Audit 1: ${String(state.firstVerification.verdict || "").replace(/_/g, " ")}`, "conservative rewrite",
+      `Audit 2: ${v.verdict ? v.verdict.replace(/_/g, " ") : "not completed"}`);
+    fill(el, h("div", { class: `verdict-card v-${verdict}` },
+      h("div", { class: "by" },
+        h("span", { class: "label", text: "Second-model audit · Google Gemini" }),
+        state.data.thesis && h("span", { class: "label", text: `Thesis audited: ${state.data.thesis.role_title}` })),
+      h("div", { class: "verdict-word", text: verdict.replace(/_/g, " ") || "NO VERDICT" }),
+      unresolved
+        ? h("div", { class: "verdict-meaning", text: state.unresolved })
+        : VERDICT_MEANING[verdict] && h("div", { class: "verdict-meaning", text: VERDICT_MEANING[verdict] }),
+      trail.length ? h("div", { class: "audit-trail", text: trail.join("  →  ") }) : null,
+      cvs.length ? h("div", { class: "audit-trail", text: `${nOk} of ${cvs.length} claims individually SUPPORTED${unresolved ? "" : " · only those go into the pitch"}` })
+        : state.demo && !unresolved ? h("div", { class: "audit-trail", text: "Recorded demo: per-claim audit isn't available in this recording" }) : null,
+      v.reason ? h("p", { class: "verdict-reason", text: v.reason }) : null,
+      h("div", { class: "isolation", text: "Gemini sees only the thesis claims, the repo evidence and the company signals. It never sees the reasoning that produced the thesis, so it can't just agree with it." })));
+  }
+
+  function renderPitch() {
+    const el = body("pitch");
+    const blk = stateBlock("pitch");
+    if (blk) return fill(el, blk);
+    const p = state.data.pitch;
+    const status = h("span", { class: "copy-status", "aria-live": "polite" });
+    const text = `${p.subject ? "Subject: " + p.subject + "\n\n" : ""}${p.outreach_message || ""}`;
+    fill(el,
+      state.claimsUsed
+        ? h("div", { style: "margin-bottom:18px" },
+            h("div", { class: "label subhead", style: "margin-top:0", text: `Built only from the ${state.claimsUsed.length} claim${state.claimsUsed.length === 1 ? "" : "s"} Gemini marked SUPPORTED` }),
+            h("ul", { class: "syn-claims" }, state.claimsUsed.map((c) => h("li", { text: `${c.claim} (${c.source})` }))))
+        : state.demo ? h("div", { class: "inline-note", style: "margin:0 0 14px", text: "Recorded demo: this pitch was drafted before per-claim filtering existed." }) : null,
+      h("div", { class: "pitch" },
+        p.subject && h("div", { class: "pitch-subject" }, h("span", { class: "label", text: "Subject" }), p.subject),
+        h("pre", { class: "pitch-body", id: "pitchBody", text: p.outreach_message || "" }),
+        h("div", { class: "pitch-foot" },
+          p.call_to_action ? h("div", { class: "cta" }, "Ask: ", h("b", { text: p.call_to_action })) : h("span"),
+          h("div", { class: "copy-row" }, status,
+            h("button", { class: "copy", type: "button", onclick: () => copyText(text, status) }, "Copy subject + message")))),
+      Array.isArray(p.highlighted_claims) && p.highlighted_claims.length
+        ? h("div", null, h("div", { class: "label subhead", text: "Proof points the pitch leans on" }),
+            h("div", { class: "skills" }, p.highlighted_claims.map((c) => h("span", { class: "chip", text: c }))))
+        : null,
+    );
+  }
+
+  // ---------- clipboard: async API → execCommand fallback → select for manual copy ----------
+  async function copyText(text, statusEl) {
+    const say = (msg, cls) => { statusEl.textContent = msg; statusEl.className = "copy-status " + (cls || ""); };
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(text);
+        return say("Copied ✓", "ok");
+      }
+      throw new Error("Clipboard API unavailable");
+    } catch (_) {
+      const ta = h("textarea", { readonly: "", style: "position:fixed;top:0;left:0;opacity:0;" });
+      ta.value = text;
+      document.body.appendChild(ta);
+      ta.select();
+      let ok = false;
+      try { ok = document.execCommand("copy"); } catch (_) {}
+      ta.remove();
+      if (ok) return say("Copied ✓", "ok");
+      const pre = $("#pitchBody");
+      const range = document.createRange();
+      range.selectNodeContents(pre);
+      const sel = getSelection(); sel.removeAllRanges(); sel.addRange(range);
+      say("Clipboard blocked. Message selected, press ⌘/Ctrl+C", "bad");
+    }
+  }
+
+  // ---------- boot ----------
+  $("#runForm").addEventListener("submit", run);
+  $("#company").addEventListener("change", showCompanyDesc);
+  // Demo replay ignores both inputs server-side, so make that visible.
+  function syncDemo() {
+    const on = $("#demo").checked;
+    $("#username").disabled = on;
+    $("#company").disabled = on || !companies.length;
+    if (on) $("#companyDesc").textContent = "Inputs ignored: the backend will replay demo_cache.json.";
+    else showCompanyDesc();
+  }
+  $("#demo").addEventListener("change", syncDemo);
+  syncDemo(); // the browser may restore a ticked checkbox on reload without firing change
+  $("#footer").textContent = `Backend: ${API || location.origin} · POST /api/analyze (server-sent events) · GET /api/companies`;
+  loadCompanies();
+})();
+</script>
+</body>
+</html>

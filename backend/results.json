@@ -1,0 +1,653 @@
+[
+  {
+    "candidate": "jenish1345",
+    "company": "stripe",
+    "company_name": "Stripe",
+    "status": "success",
+    "stages_completed": [
+      "extraction",
+      "synthesis",
+      "thesis",
+      "verification",
+      "pitch"
+    ],
+    "failed_stage": null,
+    "error_message": null,
+    "stage_latencies": {
+      "extraction": 2.195,
+      "synthesis": 19.485,
+      "thesis": 17.884,
+      "verification": 11.038,
+      "pitch": 9.44
+    },
+    "thesis": {
+      "role_title": "Staff Software Engineer, Agentic Systems Reliability",
+      "justification": "The candidate's deep expertise in designing and implementing preflight safety gates for autonomous agents directly addresses Stripe's paramount need for extreme reliability and correctness in its financial infrastructure. Their work on sandboxed execution and intent verification provides a critical layer of assurance, mirroring Stripe's commitment to auditable, idempotent, and highly available systems that never block on critical operations.",
+      "supporting_evidence": [
+        {
+          "claim": "Designed and implemented a preflight gate for autonomous agents to verify intended actions.",
+          "source": "blast_radius"
+        },
+        {
+          "claim": "Developed a system that forks sandbox images, runs agent actions, and diffs the fork against the parent state.",
+          "source": "blast_radius"
+        },
+        {
+          "claim": "Implemented a system to rehearse agent actions in an isolated sandbox environment.",
+          "source": "firebreak"
+        },
+        {
+          "claim": "Addressed prompt injection threats by observing actual effects in a sandbox rather than just analyzing text.",
+          "source": "firebreak"
+        },
+        {
+          "claim": "Developed an autonomous agentic system for last-mile delivery failure recovery.",
+          "source": "Delivr"
+        }
+      ]
+    },
+    "verification": {
+      "verdict": "PARTIALLY_SUPPORTED",
+      "reason": "All claims regarding agentic systems and their safety/verification mechanisms are directly supported by the evidence. However, the 'Reliability' aspect of the Staff role, especially considering Stripe's signals for high-scale distributed systems reliability, is not fully substantiated by the demonstrated work, which focuses more on agent behavior correctness rather than system uptime or resilience."
+    },
+    "pitch": {
+      "subject": "Engineering Agentic Reliability: A Technical Sync for Stripe?",
+      "outreach_message": "Hello [Stripe Engineering Leader Name],\n\nMy name is ANTONY JENISH FERNANDO J, and I'm reaching out given Stripe's paramount need for extreme reliability and correctness in its financial infrastructure. My expertise lies in designing and implementing preflight safety gates for autonomous agents, directly addressing critical risks.\n\nI've designed and implemented systems that verify intended agent actions by rehearsing them in isolated sandbox environments. This includes developing methods to fork sandbox images, execute agent actions, and then diff the state against the parent, ensuring auditable and predictable outcomes.\n\nThis approach effectively mitigates prompt injection threats by observing actual effects in a sandbox, rather than solely relying on text analysis. My work, including an autonomous agentic system for last-mile delivery failure recovery, aligns with Stripe's commitment to idempotent and highly available systems.\n\nI believe my experience could significantly contribute to Stripe's agentic systems reliability efforts.",
+      "highlighted_claims": [
+        "Designed and implemented a preflight gate for autonomous agents to verify intended actions.",
+        "Developed a system that forks sandbox images, runs agent actions, and diffs the fork against the parent state.",
+        "Addressed prompt injection threats by observing actual effects in a sandbox rather than just analyzing text."
+      ],
+      "call_to_action": "Would you be open to a brief 15-minute sync to explore potential synergies?"
+    },
+    "total_latency_seconds": 60.043,
+    "cost_estimate_usd": 0.000677,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "jenish1345",
+    "company": "supabase",
+    "company_name": "Supabase",
+    "status": "success",
+    "stages_completed": [
+      "extraction",
+      "synthesis",
+      "thesis",
+      "verification",
+      "pitch"
+    ],
+    "failed_stage": null,
+    "error_message": null,
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 16.308,
+      "thesis": 11.001,
+      "verification": 15.52,
+      "pitch": 14.665
+    },
+    "thesis": {
+      "role_title": "AI/ML Engineer, Agent Safety & Data Integrity",
+      "justification": "This candidate is uniquely positioned to enhance Supabase's AI capabilities, particularly in ensuring the safety and integrity of autonomous agents interacting with data stored via pgvector. Their expertise in sandboxing, intent verification, and privacy-by-design directly addresses the critical need for secure, reliable AI integrations within a multi-tenant, open-source data platform.",
+      "supporting_evidence": [
+        {
+          "claim": "Designed and implemented a preflight gate for autonomous agents using sandboxing and system diffing to verify actions against declared intent.",
+          "source": "blast_radius"
+        },
+        {
+          "claim": "Built a preflight safety gate for AI agents to observe actual effects in a sandbox and compare them to declared intent, preventing undeclared or malicious actions.",
+          "source": "firebreak"
+        },
+        {
+          "claim": "Developed an AI system for health claim denial defense using OCR and RAG discrepancy analysis, demonstrating practical application of AI/ML for complex data processing.",
+          "source": "Claimguard"
+        },
+        {
+          "claim": "Implemented a 100% offline mobile application with Flutter and Dart, designed with privacy-first principles and achieving 20/20 passing tests, emphasizing data integrity and robust design.",
+          "source": "GhostRecall"
+        }
+      ]
+    },
+    "verification": {
+      "verdict": "SUPPORTED",
+      "reason": "All claims made are directly and concretely supported by the provided developer evidence, including specific projects for AI/ML systems, agent safety gates, and data integrity principles. The proposed role title accurately reflects the breadth and depth of these verified capabilities."
+    },
+    "pitch": {
+      "subject": "ANTONY JENISH FERNANDO J: Enhancing AI Agent Safety & Data Integrity for Supabase",
+      "outreach_message": "Hello [Engineering Lead Name],\n\nMy name is ANTONY JENISH FERNANDO J, and I'm reaching out because my work in AI agent safety and data integrity aligns closely with Supabase's innovative approach to data and AI.\n\nGiven Supabase's focus on robust data platforms and AI integrations like pgvector, ensuring autonomous agents interact safely and reliably with user data is critical. I've designed and implemented preflight safety gates for AI agents, using sandboxing and system diffing to verify actions against declared intent, preventing undeclared or malicious operations. This directly reduces risk and enhances data integrity for systems handling sensitive interactions.\n\nI also developed a privacy-first, 100% offline mobile app with rigorous testing, underscoring my commitment to robust, secure engineering.\n\nI believe my experience could significantly contribute to Supabase's agent safety and data integrity initiatives. Would you be open to a brief 15-minute sync next week to explore this further?",
+      "highlighted_claims": [
+        "Designed and implemented a preflight gate for autonomous agents using sandboxing and system diffing to verify actions against declared intent.",
+        "Implemented a 100% offline mobile application with Flutter and Dart, designed with privacy-first principles and achieving 20/20 passing tests, emphasizing data integrity and robust design."
+      ],
+      "call_to_action": "Would you be open to a brief 15-minute sync next week to explore this further?"
+    },
+    "total_latency_seconds": 57.495,
+    "cost_estimate_usd": 0.000677,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "jenish1345",
+    "company": "vercel",
+    "company_name": "Vercel",
+    "status": "success",
+    "stages_completed": [
+      "extraction",
+      "synthesis",
+      "thesis",
+      "verification",
+      "pitch"
+    ],
+    "failed_stage": null,
+    "error_message": null,
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 19.392,
+      "thesis": 13.048,
+      "verification": 13.409,
+      "pitch": 11.396
+    },
+    "thesis": {
+      "role_title": "Staff Software Engineer, Platform Reliability & Agentic Systems",
+      "justification": "This candidate excels at building and securing complex, distributed agentic systems, directly addressing Vercel's need for robust, verifiable deployments and advanced caching. Their expertise in sandboxing and behavioral verification can enhance platform reliability, optimize incremental computation, and ensure the integrity of distributed serverless functions, aligning with Vercel's commitment to instant atomic rollbacks and superior developer experience.",
+      "supporting_evidence": [
+        {
+          "claim": "Developed a system to diff sandboxed environments against a parent image to verify agent actions.",
+          "source": "blast_radius"
+        },
+        {
+          "claim": "Implemented an autonomous agent system for last-mile delivery failure recovery.",
+          "source": "Delivr"
+        },
+        {
+          "claim": "Implemented a mechanism to compare an agent's declared intent with observed behavior in a sandbox.",
+          "source": "blast_radius"
+        },
+        {
+          "claim": "Developed a preflight safety gate for AI agents using TypeScript.",
+          "source": "firebreak"
+        }
+      ]
+    },
+    "verification": {
+      "verdict": "SUPPORTED",
+      "reason": "All claims made are directly supported by the verified developer evidence, demonstrating extensive experience in autonomous agent systems, including their safety, verification, and reliability. The candidate's work on sandboxing, preflight gates, and intent verification directly supports the 'Platform Reliability' aspect within the context of 'Agentic Systems', justifying the proposed Staff Software Engineer role."
+    },
+    "pitch": {
+      "subject": "Reducing Risk & Latency: Agentic Systems for Vercel",
+      "outreach_message": "Hello [Vercel Engineering Leader Name],\n\nMy name is ANTONY JENISH FERNANDO J, and I'm deeply impressed by Vercel's commitment to instant atomic rollbacks and unparalleled developer experience. My background aligns closely with enhancing platform reliability through robust, verifiable agentic systems.\n\nI've focused on engineering artifacts that directly reduce latency, risk, and operational workload. For instance, I've developed systems to diff sandboxed environments against a parent image to verify agent actions, ensuring predictable, secure automation crucial for Vercel's distributed serverless functions. My work also includes implementing autonomous agent systems for last-mile delivery failure recovery, demonstrating a proactive approach to maintaining system integrity and minimizing operational overhead.\n\nI believe these experiences could significantly contribute to Vercel's Staff Software Engineer, Platform Reliability & Agentic Systems role.\n\nWould you be open to a brief 15-minute chat to explore how my expertise could benefit Vercel?\n\nBest regards,\nANTONY JENISH FERNANDO J",
+      "highlighted_claims": [
+        "Developed a system to diff sandboxed environments against a parent image to verify agent actions.",
+        "Implemented an autonomous agent system for last-mile delivery failure recovery."
+      ],
+      "call_to_action": "Would you be open to a brief 15-minute chat to explore how my expertise could benefit Vercel?"
+    },
+    "total_latency_seconds": 57.245,
+    "cost_estimate_usd": 0.000677,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "jenish1345",
+    "company": "anthropic",
+    "company_name": "Anthropic",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 4.266
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 4.266,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "jenish1345",
+    "company": "datadog",
+    "company_name": "Datadog",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 7.422
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 7.422,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "samuveljohnson1416",
+    "company": "stripe",
+    "company_name": "Stripe",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 4.238,
+      "synthesis": 6.663
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 10.901,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "samuveljohnson1416",
+    "company": "supabase",
+    "company_name": "Supabase",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 4.522
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 4.522,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "samuveljohnson1416",
+    "company": "vercel",
+    "company_name": "Vercel",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 4.319
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 4.319,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "samuveljohnson1416",
+    "company": "anthropic",
+    "company_name": "Anthropic",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 4.828
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 4.828,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "samuveljohnson1416",
+    "company": "datadog",
+    "company_name": "Datadog",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 4.153
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 4.153,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "Berosin",
+    "company": "stripe",
+    "company_name": "Stripe",
+    "status": "failed",
+    "stages_completed": [
+      "extraction",
+      "synthesis"
+    ],
+    "failed_stage": "thesis",
+    "error_message": "Thesis formulation failed after retries: LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 3.847,
+      "synthesis": 22.974,
+      "thesis": 7.928
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 34.749,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "Berosin",
+    "company": "supabase",
+    "company_name": "Supabase",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 7.436
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 7.436,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "Berosin",
+    "company": "vercel",
+    "company_name": "Vercel",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 4.52
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 4.52,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "Berosin",
+    "company": "anthropic",
+    "company_name": "Anthropic",
+    "status": "failed",
+    "stages_completed": [
+      "extraction",
+      "synthesis"
+    ],
+    "failed_stage": "thesis",
+    "error_message": "Thesis formulation failed after retries: LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 29.802,
+      "thesis": 23.206
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 53.008,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "Berosin",
+    "company": "datadog",
+    "company_name": "Datadog",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 11.33
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 11.33,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "JOSEMICHAELRAJ",
+    "company": "stripe",
+    "company_name": "Stripe",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 5.541,
+      "synthesis": 9.32
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 14.861,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "JOSEMICHAELRAJ",
+    "company": "supabase",
+    "company_name": "Supabase",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 14.653
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 14.653,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "JOSEMICHAELRAJ",
+    "company": "vercel",
+    "company_name": "Vercel",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 11.125
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 11.125,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "JOSEMICHAELRAJ",
+    "company": "anthropic",
+    "company_name": "Anthropic",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 16.471
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 16.471,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "JOSEMICHAELRAJ",
+    "company": "datadog",
+    "company_name": "Datadog",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 9.861
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 9.861,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "george-o5",
+    "company": "stripe",
+    "company_name": "Stripe",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 8.804,
+      "synthesis": 10.025
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 18.829,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "george-o5",
+    "company": "supabase",
+    "company_name": "Supabase",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 8.067
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 8.067,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "george-o5",
+    "company": "vercel",
+    "company_name": "Vercel",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 19.366
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 19.367,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "george-o5",
+    "company": "anthropic",
+    "company_name": "Anthropic",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 21.049
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 21.049,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  },
+  {
+    "candidate": "george-o5",
+    "company": "datadog",
+    "company_name": "Datadog",
+    "status": "failed",
+    "stages_completed": [
+      "extraction"
+    ],
+    "failed_stage": "synthesis",
+    "error_message": "LLM generation failed across attempted models: gemini-2.0-flash status 404: {\n  \"error\": {\n    \"code\": 404,\n    \"message\": \"This model models/gemini-2.0-flash is no longer available. Please update your code to use models/gemini-3.8-flash for the latest features and improvemen",
+    "stage_latencies": {
+      "extraction": 0.0,
+      "synthesis": 7.765
+    },
+    "thesis": null,
+    "verification": null,
+    "pitch": null,
+    "total_latency_seconds": 7.765,
+    "cost_estimate_usd": 0.0,
+    "retries_occurred": 0
+  }
+]

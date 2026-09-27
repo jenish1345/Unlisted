@@ -1,0 +1,62 @@
+[
+  {
+    "id": "stripe",
+    "name": "Stripe",
+    "description": "Financial infrastructure platform for internet commerce",
+    "verified": true,
+    "evidence": [
+      "Stripe Engineering Strategy: 'Sorbet, a custom static type checker for Ruby developed by Stripe written in C++, provided structure and safety to keep the core codebase maintainable as we scaled without prematurely decomposing into microservices.'",
+      "Stripe Architecture: 'Stripe separates payment processing from its Ledger system. The payment processor handles bank latencies, retries, and idempotency keys, while the Ledger serves as an immutable, auditable system of record.'",
+      "Stripe Reliability Post: 'Targeting 99.9995% uptime using asynchronous event-driven processing so the system never blocks on database writes during peak global transaction spikes.'",
+      "Stripe Data Plane Engineering: 'Moved beyond off-the-shelf Envoy proxies to build a custom high-performance distributed proxy architecture specifically designed to route mission-critical payment traffic.'"
+    ]
+  },
+  {
+    "id": "supabase",
+    "name": "Supabase",
+    "description": "Open source Firebase alternative built on PostgreSQL",
+    "verified": true,
+    "evidence": [
+      "Supabase Architecture: 'Supabase Realtime is built using Elixir and the Phoenix Framework, streaming PostgreSQL Write-Ahead Log (WAL) changes via WebSockets to handle millions of concurrent connections.'",
+      "Supabase Systems Blog: 'Supabase ETL is a high-performance PostgreSQL replication and Change Data Capture (CDC) engine written in Rust for initial data synchronization and live replication pipelines.'",
+      "Supabase AI Post: 'First-class support for pgvector enables vector similarity search directly within PostgreSQL using HNSW and IVFFlat indexing alongside standard SQL queries.'",
+      "Supabase Storage & Auth: 'Object storage with edge auth validation and PostgreSQL Row-Level Security (RLS) enforcement to maintain multi-tenant data isolation.'"
+    ]
+  },
+  {
+    "id": "vercel",
+    "name": "Vercel",
+    "description": "Frontend cloud and developer experience platform",
+    "verified": true,
+    "evidence": [
+      "Vercel Engineering: 'Turbopack uses the Turbo Engine, an incremental memoization framework written in Rust that treats compilation as a reactive dependency graph where function results are cached.'",
+      "Next.js App Router Architecture: 'Maintains a unified module graph across client and server environments, enabling React Server Components (RSC) with fine-grained task caching.'",
+      "Vercel Edge Runtime: 'Demand-driven compilation compiles only modules actually requested by the development server, eliminating eager bundling overhead.'",
+      "Vercel Infrastructure: 'Zero-config preview deployments orchestrating distributed serverless functions, asset hashing, and instant atomic rollback.'"
+    ]
+  },
+  {
+    "id": "anthropic",
+    "name": "Anthropic",
+    "description": "AI safety and research company building reliable Claude models",
+    "verified": true,
+    "evidence": [
+      "Anthropic API Engineering: 'Prompt Caching implements prefix KV-cache reuse with explicit cache_control breakpoints, reducing input token costs by up to 90% and slashing Time-To-First-Token (TTFT).'",
+      "Anthropic Inference Optimization: 'Combining prompt caching with speculative decoding, using a smaller draft model to predict token sequences verified by Claude 3.5 Sonnet in a single parallel pass.'",
+      "Anthropic Platform: 'Designing low-latency streaming APIs for Claude 3.5 Sonnet, tool-use evaluation harnesses, and enterprise batch processing pipelines.'",
+      "Anthropic Research: 'Constitutional AI and automated red-teaming pipelines for evaluating model harmlessness, factuality, and multi-turn tool use reliability.'"
+    ]
+  },
+  {
+    "id": "datadog",
+    "name": "Datadog",
+    "description": "Observability and security platform for cloud-scale applications",
+    "verified": true,
+    "evidence": [
+      "Datadog Systems Engineering: 'The Datadog Agent is written in Go and manages the lifecycle of sandboxed eBPF programs written in C to hook kernel syscalls with minimal CPU overhead.'",
+      "Datadog Cloud Network Monitoring: 'Replaced high-overhead Netlink polling with eBPF to accurately attribute network connections to specific PIDs and container runtimes.'",
+      "Datadog Security Research: 'Scaling real-time file monitoring with eBPF ring buffers, filtering billions of kernel events per minute before transmitting telemetry to user space.'",
+      "Datadog Data Pipeline: 'Universal Service Monitoring using eBPF protocol tracing to automatically map Kafka, gRPC, and HTTP dependencies without manual instrumentation.'"
+    ]
+  }
+]
