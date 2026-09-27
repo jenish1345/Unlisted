@@ -16,3 +16,4 @@ backend/static/
 # IDE
 .vscode/
 .idea/
+.vercel
